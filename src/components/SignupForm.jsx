@@ -1,7 +1,10 @@
-import React from "react";
+import useSWR from "swr";
+
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { TextField, Button } from "@mui/material";
+
+import sendEmail from "../utils/sendEmail";
 
 const validationSchema = yup.object({
   firstname: yup
@@ -14,22 +17,28 @@ const validationSchema = yup.object({
     .string("Enter your email")
     .email("Enter a valid email")
     .required("Email is required"),
-  phone: yup.string("Enter your password").required("Password is required"),
+  phone: yup
+    .number("Enter your phone number")
+    .required("Phone number is required"),
 });
 
 const SignupForm = () => {
   const formik = useFormik({
     initialValues: {
-      firstname: "test",
-      lastname: "test",
-      email: "test@test.com",
-      phone: "test",
+      firstname: "",
+      lastname: "",
+      email: "",
+      phone: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      handleFormSubmit(values);
     },
   });
+
+  const handleFormSubmit = (values) => {
+    sendEmail(values);
+  };
 
   return (
     <div>
@@ -38,7 +47,7 @@ const SignupForm = () => {
           fullWidth
           id="firstname"
           name="firstname"
-          label="firstname"
+          label="First name"
           value={formik.values.firstname}
           onChange={formik.handleChange}
           error={formik.touched.firstname && Boolean(formik.errors.firstname)}
@@ -49,7 +58,7 @@ const SignupForm = () => {
           fullWidth
           id="lastname"
           name="lastname"
-          label="lastname"
+          label="Last name"
           value={formik.values.lastname}
           onChange={formik.handleChange}
           error={formik.touched.lastname && Boolean(formik.errors.lastname)}
@@ -71,7 +80,7 @@ const SignupForm = () => {
           fullWidth
           id="phone"
           name="phone"
-          label="phone"
+          label="Phone"
           value={formik.values.phone}
           onChange={formik.handleChange}
           error={formik.touched.phone && Boolean(formik.errors.phone)}

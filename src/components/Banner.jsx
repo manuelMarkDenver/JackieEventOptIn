@@ -1,5 +1,4 @@
 import { Typography } from "@mui/material";
-import SignupForm from "./SignupForm";
 
 const Banner = () => {
   return (
@@ -7,7 +6,6 @@ const Banner = () => {
       <Typography variant="h1" component="h2" align="center">
         Jackie's Event
       </Typography>
-      <SignupForm />
     </>
   );
 };
